@@ -79,8 +79,32 @@ class GameScene: SKScene {
         bottomLeftCircle.fillColor = UIColor.white
         self.addChild(bottomLeftCircle.getNode())
 
+        
+        let ls = tails(list:[0, 1, 2, 3])
+        print("ls => \(ls)")
+        
+        let lv = combine(num: 2, list: [0, 1, 2, 3])
+        print("lv => \(lv)")
+
+        let lw = combine(num: 1, list: [0, 1, 2, 3])
+        print("lw => \(lw)")
+        
+        
+        let vec0 = nr(vec:CGVector(dx:0, dy:1))
+        print("vec0 => \(vec0)")
+
+        let vec1 = nr(vec:CGVector(dx:1, dy:1))
+        print("vec1 => \(vec1)")
+
+        let p0 = CGPoint(x:1, y:0)
+        let p1 = CGPoint(x:0, y:0)
+        let p2 = CGPoint(x:0, y:1)
+
+        let ang = cosVex3(pt0:p0, pt1:p1, pt2:p2)
+        print("ang => \(ang)")
+
     }
-    
+
     func randomPtRect(topLeft:CGPoint, width:CGFloat, height:CGFloat) -> CGPoint{
         let rx = CGFloat.random(in: 0...1.0)
         let ry = CGFloat.random(in: 0...1.0)
@@ -132,6 +156,30 @@ class GameScene: SKScene {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
+
+    func randomTwoPts(dt:CGFloat) -> (CGPoint, CGPoint){
+        var done = true
+        var ret : (CGPoint, CGPoint) = (CGPoint(x:0, y:0), CGPoint(x:0, y:0))
+        while done {
+            var ls :[CGPoint] = []
+            for n in 0...4{
+                let pt = randomPtRect(topLeft: self.topLeft, width: self.gameSize.width/2, height: gameSize.height/2)
+                ls.append(pt)
+            }
+            let lv = combine(num:2, list:ls)
+            
+            for lt in lv{
+                let d = dist(vec: lt[0] - lt[1])
+                if d >= dt{
+                    ret = (lt[0], lt[1])
+                    done = false
+                }
+                
+            }
+        }
+        return ret
+    }
+
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
@@ -140,7 +188,10 @@ class GameScene: SKScene {
         }else{
             let diff = currentTime - initTime0
             if diff > 0.1{
-                let pt = randomPtRect(topLeft: topLeft, width: gameSize.width/2, height: gameSize.height/2)
+
+                let (p0, p1) = randomTwoPts(dt:100)
+                let pt = randomPtRect(topLeft: self.topLeft, width: self.gameSize.width/2, height: gameSize.height/2)
+                                
                 let topleftCircle = Ball(position: pt, radius: 10.0)
                 topleftCircle.draw()
                 let red  = CGFloat.random(in: 0...1.0)

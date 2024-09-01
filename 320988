@@ -1,0 +1,16 @@
+md:*: markdown
+**bold text**
+__old test__
+*italic*
+1. list 1
+2. list 2
+3. list 3
+# Big 4
+## Big 3
+### big 2
+#### big 1
+URL
+**[xfido](https://xfido.com)**
+*[xfido](https://xfido.com)*
+KEY: image size, img, png
+<img src="https://myfile.png" width=50% height=50%>
