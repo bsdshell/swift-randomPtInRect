@@ -102,9 +102,54 @@ class GameScene: SKScene {
 
         let ang = cosVex3(pt0:p0, pt1:p1, pt2:p2)
         print("ang => \(ang)")
+        
+        let rect = Shape.rectangle(position: CGPoint(x:0, y:0), size: CGSize(width: 100, height: 100), isHidden: false)
+        self.addChild(rect)
 
+        let cen = CGPoint(x:-50, y:50)
+
+        
+        let (q0, q1, q2, q3) = fourPts(cen: CGPoint(x:0, y:0), size: CGSize(width: 100, height: 100))
+        print("q0 => \(q0), q1 => \(q1), q2 => \(q2), q3 => \(q3)")
+        
+        print("q0 => \(q0)")
+        print("q1 => \(q1)")
+        print("q2 => \(q2)")
+        print("q3 => \(q3)")
+        
+        let ax = cosVex3(pt0:q0, pt1:cen, pt2:q2)
+        print("ax => \(ax)")
+
+        
+        let bo = ptInTriangle(pt:cen, pt0:q0, pt1:q1, pt2:q2)
+        print("bo => \(bo)")
+        let xxx = 1.0e-12
+        print("xxx => \(xxx)")
+        
+        let b1 = ptInRectangle(pt:CGPoint(x:0, y:0), cen: CGPoint(x:0,y:0), size: CGSize(width: 100, height: 100))
+        print("b1 => \(b1)")
     }
+    
+    func cosVex3X(pt0:CGPoint, pt1:CGPoint, pt2:CGPoint) -> CGFloat{
+        let v10 = vec(pt0:pt1, pt1:pt0)
+        let v12 = vec(pt0:pt1, pt1:pt2)
+        let d = dot2(v0 : v10, v1:v12)
+        let u = dot2(v0:v10, v1:v10)
+        let v = dot2(v0:v12, v1:v12)
+        print("d => \(d)")
+        print("u => \(u)")
+        print("v => \(v)")
+        print("v10 => \(v10)")
+        print("v12 => \(v12)")
 
+        let uv = u * v
+        let xx =  d*d/uv
+        print("xx => \(xx)")
+        print("uv => \(uv)")
+        return acos (d*d/(u * v))
+    }
+    
+    
     func randomPtRect(topLeft:CGPoint, width:CGFloat, height:CGFloat) -> CGPoint{
         let rx = CGFloat.random(in: 0...1.0)
         let ry = CGFloat.random(in: 0...1.0)
